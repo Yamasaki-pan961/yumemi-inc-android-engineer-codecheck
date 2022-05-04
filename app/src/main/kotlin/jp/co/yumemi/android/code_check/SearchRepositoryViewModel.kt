@@ -20,8 +20,9 @@ import org.json.JSONObject
 import java.util.*
 
 /**
- * TwoFragment で使う
+ * SearchRepositoryFragmentのViewModel
  */
+
 class SearchRepositoryViewModel(
     val context: Context
 ) : ViewModel() {
