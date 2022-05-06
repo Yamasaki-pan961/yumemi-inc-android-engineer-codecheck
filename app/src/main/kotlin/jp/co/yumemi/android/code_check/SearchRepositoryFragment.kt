@@ -28,7 +28,7 @@ class SearchRepositoryFragment: Fragment(R.layout.search_repository_fragment){
         val _dividerItemDecoration=
             DividerItemDecoration(context!!, _layoutManager.orientation)
         val _adapter= CustomAdapter(object : CustomAdapter.OnItemClickListener{
-            override fun itemClick(item: item){
+            override fun itemClick(item: RepositoryInfo){
                 gotoRepositoryFragment(item)
             }
         })
@@ -53,7 +53,7 @@ class SearchRepositoryFragment: Fragment(R.layout.search_repository_fragment){
         }
     }
 
-    fun gotoRepositoryFragment(item: item)
+    fun gotoRepositoryFragment(item: RepositoryInfo)
     {
         val _action= SearchRepositoryFragmentDirections
             .actionRepositoriesFragmentToRepositoryFragment(item= item)
@@ -61,13 +61,13 @@ class SearchRepositoryFragment: Fragment(R.layout.search_repository_fragment){
     }
 }
 
-val diff_util= object: DiffUtil.ItemCallback<item>(){
-    override fun areItemsTheSame(oldItem: item, newItem: item): Boolean
+val diff_util= object: DiffUtil.ItemCallback<RepositoryInfo>(){
+    override fun areItemsTheSame(oldItem: RepositoryInfo, newItem: RepositoryInfo): Boolean
     {
         return oldItem.name== newItem.name
     }
 
-    override fun areContentsTheSame(oldItem: item, newItem: item): Boolean
+    override fun areContentsTheSame(oldItem: RepositoryInfo, newItem: RepositoryInfo): Boolean
     {
         return oldItem== newItem
     }
@@ -76,12 +76,12 @@ val diff_util= object: DiffUtil.ItemCallback<item>(){
 
 class CustomAdapter(
     private val itemClickListener: OnItemClickListener,
-) : ListAdapter<item, CustomAdapter.ViewHolder>(diff_util){
+) : ListAdapter<RepositoryInfo, CustomAdapter.ViewHolder>(diff_util){
 
     class ViewHolder(view: View): RecyclerView.ViewHolder(view)
 
     interface OnItemClickListener{
-    	fun itemClick(item: item)
+    	fun itemClick(item: RepositoryInfo)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder
