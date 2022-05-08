@@ -9,12 +9,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
 import jp.co.yumemi.android.code_check.databinding.SearchRepositoryFragmentBinding
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
+import java.lang.Exception
 
 // TODO: MVVMを導入してViewModelに処理を移す
 /**
@@ -46,9 +49,16 @@ class SearchRepositoryFragment : Fragment(R.layout.search_repository_fragment) {
 
         binding.searchInputText.setOnEditorActionListener { editText, action, _ ->
             if (action == EditorInfo.IME_ACTION_SEARCH) {
-                // FIX: ActionなのでFragmentに書くべきでないかも
                 editText.text.toString().let {
-                    viewModel.viewModelScope.launch {
+                    viewModel.viewModelScope.launch(
+                        CoroutineExceptionHandler { _, exception ->
+                            Toast.makeText(
+                                requireContext(),
+                                exception.toString(),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    ) {
                         viewModel.searchResults(it).apply { adapter.submitList(this) }
                     }
                 }
@@ -71,7 +81,11 @@ class SearchRepositoryFragment : Fragment(R.layout.search_repository_fragment) {
             )
         findNavController().navigate(action)
     }
-    // TODO:onDestroyView()に_binding=nullを追記しメモリリークを防ぐ
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }
 
 // FIX: privateにする

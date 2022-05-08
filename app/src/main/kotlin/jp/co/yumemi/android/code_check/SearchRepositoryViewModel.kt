@@ -43,17 +43,16 @@ class SearchRepositoryViewModel : ViewModel() {
                 val jsonItems = jsonBody.optJSONArray("items")!!
 
                 val items = mutableListOf<RepositoryInfo>()
-
                 /** アイテムの個数分ループする */
                 for (i in 0 until jsonItems.length()) {
                     val jsonItem = jsonItems.optJSONObject(i)!!
                     val name = jsonItem.optString("full_name")
                     val ownerIconUrl = jsonItem.optJSONObject("owner")!!.optString("avatar_url")
                     val language = jsonItem.optString("language")
-                    val stargazersCount = jsonItem.optLong("stargazers_count")
-                    val watchersCount = jsonItem.optLong("watchers_count")
-                    val forksCount = jsonItem.optLong("forks_count")
-                    val openIssuesCount = jsonItem.optLong("open_issues_count")
+                    val stargazersCount = jsonItem.optInt("stargazers_count")
+                    val watchersCount = jsonItem.optInt("watchers_count")
+                    val forksCount = jsonItem.optInt("forks_count")
+                    val openIssuesCount = jsonItem.optInt("open_issues_count")
 
                     items.add(
                         RepositoryInfo(
@@ -84,8 +83,8 @@ data class RepositoryInfo(
     val name: String,
     val ownerIconUrl: String,
     val language: String,
-    val stargazersCount: Long,
-    val watchersCount: Long,
-    val forksCount: Long,
-    val openIssuesCount: Long,
+    val stargazersCount: Int,
+    val watchersCount: Int,
+    val forksCount: Int,
+    val openIssuesCount: Int,
 ) : Parcelable
