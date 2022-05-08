@@ -22,7 +22,6 @@ import org.json.JSONObject
  * */
 class SearchRepositoryViewModel : ViewModel() {
     // 検索結果
-    // FIX: runBlockingの中にasync{}.awaitがある
     // TODO: エラーハンドリングを追加する
     /**
      * GitHubのAPIを使ってリポジトリを検索する関数
