@@ -37,7 +37,7 @@ class SearchRepositoryViewModel : ViewModel() {
         return@runBlocking GlobalScope.async {
             // FIX: responseはnullable
             val response: HttpResponse =
-                client?.get("https://api.github.com/search/repositories") {
+                client.get("https://api.github.com/search/repositories") {
                     header("Accept", "application/vnd.github.v3+json")
                     parameter("q", inputText)
                 }
