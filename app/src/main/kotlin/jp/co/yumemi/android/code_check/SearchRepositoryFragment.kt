@@ -15,6 +15,9 @@ import androidx.recyclerview.widget.*
 import jp.co.yumemi.android.code_check.databinding.SearchRepositoryFragmentBinding
 
 // TODO: MVVMを導入してViewModelに処理を移す
+/**
+ * キーワード入力からGitHubリポジトリを検索し、一覧表示するフラグメント
+ * */
 class SearchRepositoryFragment : Fragment(R.layout.search_repository_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -83,6 +86,10 @@ val diff_util =
         }
     }
 
+/**
+ * 検索にヒットしたGitHubリポジトリをリスト表示するための
+ * ListAdapterを継承したカスタムアダプター
+ * */
 class CustomAdapter(
     private val itemClickListener: OnItemClickListener,
 ) : ListAdapter<RepositoryInfo, CustomAdapter.ViewHolder>(diff_util) {
