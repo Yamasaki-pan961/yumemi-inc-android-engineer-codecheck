@@ -3,7 +3,6 @@
  */
 package jp.co.yumemi.android.code_check
 
-import android.content.Context
 import android.os.Parcelable
 import androidx.lifecycle.ViewModel
 import io.ktor.client.*
@@ -23,8 +22,7 @@ import org.json.JSONObject
  * SearchRepositoryFragmentのViewModel
  * @see SearchRepositoryFragment
  * */
-class SearchRepositoryViewModel() : ViewModel() {
-
+class SearchRepositoryViewModel : ViewModel() {
     // 検索結果
     // FIX: runBlockingの中にasync{}.awaitがある
     // TODO: エラーハンドリングを追加する
