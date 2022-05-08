@@ -23,10 +23,7 @@ import org.json.JSONObject
  * SearchRepositoryFragmentのViewModel
  * @see SearchRepositoryFragment
  * */
-class SearchRepositoryViewModel(
-    // FIX: メモリーリークになるコンテキスト
-    val context: Context
-) : ViewModel() {
+class SearchRepositoryViewModel() : ViewModel() {
 
     // 検索結果
     // FIX: runBlockingの中にasync{}.awaitがある
@@ -68,10 +65,7 @@ class SearchRepositoryViewModel(
                     RepositoryInfo(
                         name = name,
                         ownerIconUrl = ownerIconUrl,
-                        language = context.getString(
-                            R.string.written_language,
-                            language
-                        ),
+                        language = language,
                         stargazersCount = stargazersCount,
                         watchersCount = watchersCount,
                         forksCount = forksCount,

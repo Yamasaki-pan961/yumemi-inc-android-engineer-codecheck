@@ -35,7 +35,7 @@ class RepositoryDetailFragment : Fragment(R.layout.repository_detail_fragment) {
 
         _binding.ownerIconView.load(item.ownerIconUrl)
         _binding.nameView.text = item.name
-        _binding.languageView.text = item.language
+        _binding.languageView.text = getString(R.string.written_language, item.language)
         _binding.starsView.text =
             getString(R.string.repository_stars, item.stargazersCount.toString())
         _binding.starsView.text =
