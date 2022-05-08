@@ -31,7 +31,7 @@ class SearchRepositoryViewModel(
     // 検索結果
     // FIX: runBlockingの中にasync{}.awaitがある
     // TODO: エラーハンドリングを追加する
-    fun searchResults(inputText: String): List<item> = runBlocking {
+    fun searchResults(inputText: String): List<RepositoryInfo> = runBlocking {
         val client = HttpClient(Android)
 
         //FIX: GlobalScopeの必要がない
@@ -83,9 +83,8 @@ class SearchRepositoryViewModel(
 }
 
 
-@Parcelize
-//FIX: 命名が悪いので修正
 //TODO: Modelとして単一のファイルに切り出す
+@Parcelize
 data class RepositoryInfo(
     val name: String,
     val ownerIconUrl: String,

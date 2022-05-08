@@ -67,8 +67,8 @@ class SearchRepositoryFragment: Fragment(R.layout.search_repository_fragment){
 }
 
 // FIX: privateにする
-val diff_util= object: DiffUtil.ItemCallback<item>(){
-    override fun areItemsTheSame(oldItem: item, newItem: item): Boolean
+val diff_util= object: DiffUtil.ItemCallback<RepositoryInfo>(){
+    override fun areItemsTheSame(oldItem: RepositoryInfo, newItem: RepositoryInfo): Boolean
     {
         return oldItem.name== newItem.name
     }
