@@ -20,13 +20,17 @@ import org.json.JSONObject
  * @see SearchRepositoryFragment
  * */
 class SearchRepositoryViewModel : ViewModel() {
+
+    private var _repositoryList: List<RepositoryInfo>? = null
+    val repositoryList get() = _repositoryList
+
     // 検索結果
     // TODO: エラーハンドリングを追加する
     /**
      * GitHubのAPIを使ってリポジトリを検索する関数
      * @param inputText 検索キーワード
      * */
-    suspend fun searchResults(inputText: String): List<RepositoryInfo> =
+    suspend fun searchResults(inputText: String): Unit =
         withContext(Dispatchers.IO) {
             val client = HttpClient(Android)
             async {
@@ -68,7 +72,7 @@ class SearchRepositoryViewModel : ViewModel() {
 
                 lastSearchDate = Date()
 
-                return@async items.toList()
+                _repositoryList = items.toList()
             }.await()
         }
 }
