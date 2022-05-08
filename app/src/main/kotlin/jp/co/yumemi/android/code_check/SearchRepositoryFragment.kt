@@ -29,13 +29,13 @@ class SearchRepositoryFragment : Fragment(R.layout.search_repository_fragment) {
         val _layoutManager = LinearLayoutManager(context!!)
         val _dividerItemDecoration = DividerItemDecoration(context!!, _layoutManager.orientation)
         val _adapter =
-                CustomAdapter(
-                        object : CustomAdapter.OnItemClickListener {
-                            override fun itemClick(item: RepositoryInfo) {
-                                gotoRepositoryFragment(item)
-                            }
-                        }
-                )
+            CustomAdapter(
+                object : CustomAdapter.OnItemClickListener {
+                    override fun itemClick(item: RepositoryInfo) {
+                        gotoRepositoryFragment(item)
+                    }
+                }
+            )
 
         _binding.searchInputText.setOnEditorActionListener { editText, action, _ ->
             if (action == EditorInfo.IME_ACTION_SEARCH) {
@@ -57,9 +57,9 @@ class SearchRepositoryFragment : Fragment(R.layout.search_repository_fragment) {
 
     fun gotoRepositoryFragment(item: RepositoryInfo) {
         val _action =
-                SearchRepositoryFragmentDirections.actionRepositoriesFragmentToRepositoryFragment(
-                        item = item
-                )
+            SearchRepositoryFragmentDirections.actionRepositoriesFragmentToRepositoryFragment(
+                item = item
+            )
         findNavController().navigate(_action)
     }
     // TODO:onDestroyView()に_binding=nullを追記しメモリリークを防ぐ
@@ -67,24 +67,24 @@ class SearchRepositoryFragment : Fragment(R.layout.search_repository_fragment) {
 
 // FIX: privateにする
 val diff_util =
-        object : DiffUtil.ItemCallback<RepositoryInfo>() {
-            override fun areItemsTheSame(
-                    oldItem: RepositoryInfo,
-                    newItem: RepositoryInfo
-            ): Boolean {
-                return oldItem.name == newItem.name
-            }
-
-            override fun areContentsTheSame(
-                    oldItem: RepositoryInfo,
-                    newItem: RepositoryInfo
-            ): Boolean {
-                return oldItem == newItem
-            }
+    object : DiffUtil.ItemCallback<RepositoryInfo>() {
+        override fun areItemsTheSame(
+            oldItem: RepositoryInfo,
+            newItem: RepositoryInfo
+        ): Boolean {
+            return oldItem.name == newItem.name
         }
 
+        override fun areContentsTheSame(
+            oldItem: RepositoryInfo,
+            newItem: RepositoryInfo
+        ): Boolean {
+            return oldItem == newItem
+        }
+    }
+
 class CustomAdapter(
-        private val itemClickListener: OnItemClickListener,
+    private val itemClickListener: OnItemClickListener,
 ) : ListAdapter<RepositoryInfo, CustomAdapter.ViewHolder>(diff_util) {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
