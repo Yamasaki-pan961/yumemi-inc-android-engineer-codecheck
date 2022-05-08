@@ -20,9 +20,10 @@ import org.json.JSONObject
 import java.util.*
 
 /**
- * TwoFragment で使う
+ * SearchRepositoryFragmentのViewModel
  */
-class OneViewModel(
+
+class SearchRepositoryViewModel(
     // FIX: メモリーリークになるコンテキスト
     val context: Context
 ) : ViewModel() {
@@ -30,7 +31,7 @@ class OneViewModel(
     // 検索結果
     // FIX: runBlockingの中にasync{}.awaitがある
     // TODO: エラーハンドリングを追加する
-    fun searchResults(inputText: String): List<item> = runBlocking {
+    fun searchResults(inputText: String): List<RepositoryInfo> = runBlocking {
         val client = HttpClient(Android)
 
         //FIX: GlobalScopeの必要がない
@@ -45,7 +46,7 @@ class OneViewModel(
 
             val jsonItems = jsonBody.optJSONArray("items")!!
 
-            val items = mutableListOf<item>()
+            val items = mutableListOf<RepositoryInfo>()
 
             /**
              * アイテムの個数分ループする
@@ -62,7 +63,7 @@ class OneViewModel(
                 val openIssuesCount = jsonItem.optLong("open_issues_count")
 
                 items.add(
-                    item(
+                    RepositoryInfo(
                         name = name,
                         ownerIconUrl = ownerIconUrl,
                         language = context.getString(R.string.written_language, language),
@@ -82,10 +83,9 @@ class OneViewModel(
 }
 
 
-@Parcelize
-//FIX: 命名が悪いので修正
 //TODO: Modelとして単一のファイルに切り出す
-data class item(
+@Parcelize
+data class RepositoryInfo(
     val name: String,
     val ownerIconUrl: String,
     val language: String,
