@@ -10,9 +10,11 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
 import jp.co.yumemi.android.code_check.databinding.SearchRepositoryFragmentBinding
+import kotlinx.coroutines.launch
 
 // TODO: MVVMを導入してViewModelに処理を移す
 /**
@@ -20,18 +22,20 @@ import jp.co.yumemi.android.code_check.databinding.SearchRepositoryFragmentBindi
  * */
 class SearchRepositoryFragment : Fragment(R.layout.search_repository_fragment) {
 
+    private var _binding: SearchRepositoryFragmentBinding? = null
+    private val binding get() = _binding!!
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // FIX: パブリック変数なのにアンダースコアがついている
-        val _binding = SearchRepositoryFragmentBinding.bind(view)
+        _binding = SearchRepositoryFragmentBinding.bind(view)
 
-        // FiX: requireContext()使わないといけない（エラーより）
-        val _viewModel = SearchRepositoryViewModel(context!!)
+        val viewModel = SearchRepositoryViewModel()
 
-        val _layoutManager = LinearLayoutManager(context!!)
-        val _dividerItemDecoration = DividerItemDecoration(context!!, _layoutManager.orientation)
-        val _adapter =
+        val layoutManager = LinearLayoutManager(requireContext())
+        val dividerItemDecoration =
+            DividerItemDecoration(requireContext(), layoutManager.orientation)
+        val adapter =
             CustomAdapter(
                 object : CustomAdapter.OnItemClickListener {
                     override fun itemClick(item: RepositoryInfo) {
@@ -40,30 +44,32 @@ class SearchRepositoryFragment : Fragment(R.layout.search_repository_fragment) {
                 }
             )
 
-        _binding.searchInputText.setOnEditorActionListener { editText, action, _ ->
+        binding.searchInputText.setOnEditorActionListener { editText, action, _ ->
             if (action == EditorInfo.IME_ACTION_SEARCH) {
                 // FIX: ActionなのでFragmentに書くべきでないかも
                 editText.text.toString().let {
-                    _viewModel.searchResults(it).apply { _adapter.submitList(this) }
+                    viewModel.viewModelScope.launch {
+                        viewModel.searchResults(it).apply { adapter.submitList(this) }
+                    }
                 }
                 return@setOnEditorActionListener true
             }
             return@setOnEditorActionListener false
         }
 
-        _binding.recyclerView.also {
-            it.layoutManager = _layoutManager
-            it.addItemDecoration(_dividerItemDecoration)
-            it.adapter = _adapter
+        binding.recyclerView.also {
+            it.layoutManager = layoutManager
+            it.addItemDecoration(dividerItemDecoration)
+            it.adapter = adapter
         }
     }
 
     fun gotoRepositoryFragment(item: RepositoryInfo) {
-        val _action =
+        val action =
             SearchRepositoryFragmentDirections.actionRepositoriesFragmentToRepositoryFragment(
                 item = item
             )
-        findNavController().navigate(_action)
+        findNavController().navigate(action)
     }
     // TODO:onDestroyView()に_binding=nullを追記しメモリリークを防ぐ
 }
@@ -101,14 +107,14 @@ class CustomAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val _view = LayoutInflater.from(parent.context).inflate(R.layout.layout_item, parent, false)
-        return ViewHolder(_view)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.layout_item, parent, false)
+        return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val _item = getItem(position)
-        (holder.itemView.findViewById<View>(R.id.repositoryNameView) as TextView).text = _item.name
+        val item = getItem(position)
+        (holder.itemView.findViewById<View>(R.id.repositoryNameView) as TextView).text = item.name
 
-        holder.itemView.setOnClickListener { itemClickListener.itemClick(_item) }
+        holder.itemView.setOnClickListener { itemClickListener.itemClick(item) }
     }
 }
