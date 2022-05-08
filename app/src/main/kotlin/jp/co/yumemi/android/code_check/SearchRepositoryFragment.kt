@@ -71,7 +71,11 @@ class SearchRepositoryFragment : Fragment(R.layout.search_repository_fragment) {
             )
         findNavController().navigate(action)
     }
-    // TODO:onDestroyView()に_binding=nullを追記しメモリリークを防ぐ
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }
 
 // FIX: privateにする
