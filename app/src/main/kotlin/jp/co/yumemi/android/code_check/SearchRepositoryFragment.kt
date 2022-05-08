@@ -20,13 +20,14 @@ import jp.co.yumemi.android.code_check.databinding.SearchRepositoryFragmentBindi
  * */
 class SearchRepositoryFragment : Fragment(R.layout.search_repository_fragment) {
 
+    private var _binding: SearchRepositoryFragmentBinding? = null
+    private val binding get() = _binding!!
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // FIX: パブリック変数なのにアンダースコアがついている
-        val _binding = SearchRepositoryFragmentBinding.bind(view)
+        _binding = SearchRepositoryFragmentBinding.bind(view)
 
-        // FiX: requireContext()使わないといけない（エラーより）
         val _viewModel = SearchRepositoryViewModel(requireContext())
 
         val _layoutManager = LinearLayoutManager(requireContext())
@@ -40,7 +41,7 @@ class SearchRepositoryFragment : Fragment(R.layout.search_repository_fragment) {
                 }
             )
 
-        _binding.searchInputText.setOnEditorActionListener { editText, action, _ ->
+        binding.searchInputText.setOnEditorActionListener { editText, action, _ ->
             if (action == EditorInfo.IME_ACTION_SEARCH) {
                 // FIX: ActionなのでFragmentに書くべきでないかも
                 editText.text.toString().let {
@@ -51,7 +52,7 @@ class SearchRepositoryFragment : Fragment(R.layout.search_repository_fragment) {
             return@setOnEditorActionListener false
         }
 
-        _binding.recyclerView.also {
+        binding.recyclerView.also {
             it.layoutManager = _layoutManager
             it.addItemDecoration(_dividerItemDecoration)
             it.adapter = _adapter
