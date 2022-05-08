@@ -28,11 +28,11 @@ class SearchRepositoryFragment : Fragment(R.layout.search_repository_fragment) {
 
         _binding = SearchRepositoryFragmentBinding.bind(view)
 
-        val _viewModel = SearchRepositoryViewModel(requireContext())
+        val viewModel = SearchRepositoryViewModel(requireContext())
 
-        val _layoutManager = LinearLayoutManager(requireContext())
-        val _dividerItemDecoration = DividerItemDecoration(requireContext(), _layoutManager.orientation)
-        val _adapter =
+        val layoutManager = LinearLayoutManager(requireContext())
+        val dividerItemDecoration = DividerItemDecoration(requireContext(), layoutManager.orientation)
+        val adapter =
             CustomAdapter(
                 object : CustomAdapter.OnItemClickListener {
                     override fun itemClick(item: RepositoryInfo) {
@@ -45,7 +45,7 @@ class SearchRepositoryFragment : Fragment(R.layout.search_repository_fragment) {
             if (action == EditorInfo.IME_ACTION_SEARCH) {
                 // FIX: ActionなのでFragmentに書くべきでないかも
                 editText.text.toString().let {
-                    _viewModel.searchResults(it).apply { _adapter.submitList(this) }
+                    viewModel.searchResults(it).apply { adapter.submitList(this) }
                 }
                 return@setOnEditorActionListener true
             }
@@ -53,18 +53,18 @@ class SearchRepositoryFragment : Fragment(R.layout.search_repository_fragment) {
         }
 
         binding.recyclerView.also {
-            it.layoutManager = _layoutManager
-            it.addItemDecoration(_dividerItemDecoration)
-            it.adapter = _adapter
+            it.layoutManager = layoutManager
+            it.addItemDecoration(dividerItemDecoration)
+            it.adapter = adapter
         }
     }
 
     fun gotoRepositoryFragment(item: RepositoryInfo) {
-        val _action =
+        val action =
             SearchRepositoryFragmentDirections.actionRepositoriesFragmentToRepositoryFragment(
                 item = item
             )
-        findNavController().navigate(_action)
+        findNavController().navigate(action)
     }
     // TODO:onDestroyView()に_binding=nullを追記しメモリリークを防ぐ
 }
@@ -102,14 +102,14 @@ class CustomAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val _view = LayoutInflater.from(parent.context).inflate(R.layout.layout_item, parent, false)
-        return ViewHolder(_view)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.layout_item, parent, false)
+        return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val _item = getItem(position)
-        (holder.itemView.findViewById<View>(R.id.repositoryNameView) as TextView).text = _item.name
+        val item = getItem(position)
+        (holder.itemView.findViewById<View>(R.id.repositoryNameView) as TextView).text = item.name
 
-        holder.itemView.setOnClickListener { itemClickListener.itemClick(_item) }
+        holder.itemView.setOnClickListener { itemClickListener.itemClick(item) }
     }
 }
