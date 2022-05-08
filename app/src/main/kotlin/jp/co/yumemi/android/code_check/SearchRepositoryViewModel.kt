@@ -19,7 +19,10 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.parcelize.Parcelize
 import org.json.JSONObject
 
-/** SearchRepositoryFragmentのViewModel */
+/**
+ * SearchRepositoryFragmentのViewModel
+ * @see SearchRepositoryFragment
+ * */
 class SearchRepositoryViewModel(
     // FIX: メモリーリークになるコンテキスト
     val context: Context
@@ -28,6 +31,10 @@ class SearchRepositoryViewModel(
     // 検索結果
     // FIX: runBlockingの中にasync{}.awaitがある
     // TODO: エラーハンドリングを追加する
+    /**
+     * GitHubのAPIを使ってリポジトリを検索する関数
+     * @param inputText 検索キーワード
+     * */
     fun searchResults(inputText: String): List<RepositoryInfo> = runBlocking {
         val client = HttpClient(Android)
 
@@ -82,6 +89,9 @@ class SearchRepositoryViewModel(
 }
 
 // TODO: Modelとして単一のファイルに切り出す
+/**
+ * GitHubリポジトリの詳細情報を格納するクラス
+ * */
 @Parcelize
 data class RepositoryInfo(
     val name: String,
