@@ -1,4 +1,4 @@
-package jp.co.yumemi.android.code_check
+package jp.co.yumemi.android.code_check.ui.search.adapter
 
 import androidx.recyclerview.widget.DiffUtil
 import jp.co.yumemi.android.code_check.model.RepositoryInfo

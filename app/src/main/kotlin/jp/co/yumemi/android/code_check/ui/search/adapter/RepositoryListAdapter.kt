@@ -1,4 +1,4 @@
-package jp.co.yumemi.android.code_check
+package jp.co.yumemi.android.code_check.ui.search.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,13 +6,14 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import jp.co.yumemi.android.code_check.R
 import jp.co.yumemi.android.code_check.model.RepositoryInfo
 
 /**
  * 検索にヒットしたGitHubリポジトリをリスト表示するための
  * ListAdapterを継承したカスタムアダプター
  * */
-class RepositoryListAdapter( private val itemClickListener: OnItemClickListener,
+class RepositoryListAdapter(private val itemClickListener: OnItemClickListener,
 ) : ListAdapter<RepositoryInfo, RepositoryListAdapter.ViewHolder>(SearchRepositoryDiffCallback) {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
