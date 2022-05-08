@@ -3,8 +3,6 @@ package jp.co.yumemi.android.code_check.model
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
-
-
 /**
  * GitHubリポジトリの詳細情報を格納するクラス
  * */

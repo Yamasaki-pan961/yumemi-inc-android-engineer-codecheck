@@ -13,7 +13,8 @@ import jp.co.yumemi.android.code_check.model.RepositoryInfo
  * 検索にヒットしたGitHubリポジトリをリスト表示するための
  * ListAdapterを継承したカスタムアダプター
  * */
-class RepositoryListAdapter(private val itemClickListener: OnItemClickListener,
+class RepositoryListAdapter(
+    private val itemClickListener: OnItemClickListener,
 ) : ListAdapter<RepositoryInfo, RepositoryListAdapter.ViewHolder>(SearchRepositoryDiffCallback) {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view)
