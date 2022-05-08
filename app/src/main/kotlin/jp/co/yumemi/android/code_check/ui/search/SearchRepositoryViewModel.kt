@@ -1,9 +1,8 @@
 /*
  * Copyright © 2021 YUMEMI Inc. All rights reserved.
  */
-package jp.co.yumemi.android.code_check
+package jp.co.yumemi.android.code_check.ui.search
 
-import android.os.Parcelable
 import androidx.lifecycle.ViewModel
 import io.ktor.client.*
 import io.ktor.client.call.*
@@ -11,9 +10,9 @@ import io.ktor.client.engine.android.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import java.util.*
-import jp.co.yumemi.android.code_check.TopActivity.Companion.lastSearchDate
+import jp.co.yumemi.android.code_check.ui.TopActivity.Companion.lastSearchDate
+import jp.co.yumemi.android.code_check.model.RepositoryInfo
 import kotlinx.coroutines.*
-import kotlinx.parcelize.Parcelize
 import org.json.JSONObject
 
 /**
@@ -73,18 +72,3 @@ class SearchRepositoryViewModel : ViewModel() {
             }.await()
         }
 }
-
-// TODO: Modelとして単一のファイルに切り出す
-/**
- * GitHubリポジトリの詳細情報を格納するクラス
- * */
-@Parcelize
-data class RepositoryInfo(
-    val name: String,
-    val ownerIconUrl: String,
-    val language: String,
-    val stargazersCount: Int,
-    val watchersCount: Int,
-    val forksCount: Int,
-    val openIssuesCount: Int,
-) : Parcelable
