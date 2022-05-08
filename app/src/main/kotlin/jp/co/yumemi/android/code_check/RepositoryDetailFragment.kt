@@ -38,10 +38,10 @@ class RepositoryDetailFragment : Fragment(R.layout.repository_detail_fragment) {
         _binding.languageView.text = getString(R.string.written_language, item.language)
         _binding.starsView.text =
             getString(R.string.repository_stars, item.stargazersCount.toString())
-        _binding.starsView.text =
+        _binding.watchersView.text =
             getString(R.string.repository_watchers, item.watchersCount.toString())
-        _binding.starsView.text = getString(R.string.repository_forks, item.forksCount.toString())
-        _binding.starsView.text =
+        _binding.forksView.text = getString(R.string.repository_forks, item.forksCount.toString())
+        _binding.openIssuesView.text =
             getString(R.string.repository_open_issues, item.openIssuesCount.toString())
     }
 }
