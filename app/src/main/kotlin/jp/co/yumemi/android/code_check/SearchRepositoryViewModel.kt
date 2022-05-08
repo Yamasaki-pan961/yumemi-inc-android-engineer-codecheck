@@ -24,14 +24,19 @@ import java.util.*
  */
 
 class SearchRepositoryViewModel(
+    // FIX: メモリーリークになるコンテキスト
     val context: Context
 ) : ViewModel() {
 
     // 検索結果
-    fun searchResults(inputText: String): List<RepositoryInfo> = runBlocking {
+    // FIX: runBlockingの中にasync{}.awaitがある
+    // TODO: エラーハンドリングを追加する
+    fun searchResults(inputText: String): List<item> = runBlocking {
         val client = HttpClient(Android)
 
+        //FIX: GlobalScopeの必要がない
         return@runBlocking GlobalScope.async {
+            // FIX: responseはnullable
             val response: HttpResponse = client?.get("https://api.github.com/search/repositories") {
                 header("Accept", "application/vnd.github.v3+json")
                 parameter("q", inputText)
@@ -53,6 +58,7 @@ class SearchRepositoryViewModel(
                 val language = jsonItem.optString("language")
                 val stargazersCount = jsonItem.optLong("stargazers_count")
                 val watchersCount = jsonItem.optLong("watchers_count")
+                // FIX: forks_conutスペルミス
                 val forksCount = jsonItem.optLong("forks_conut")
                 val openIssuesCount = jsonItem.optLong("open_issues_count")
 
@@ -76,7 +82,10 @@ class SearchRepositoryViewModel(
     }
 }
 
+
 @Parcelize
+//FIX: 命名が悪いので修正
+//TODO: Modelとして単一のファイルに切り出す
 data class RepositoryInfo(
     val name: String,
     val ownerIconUrl: String,

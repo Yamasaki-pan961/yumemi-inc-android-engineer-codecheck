@@ -14,14 +14,17 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
 import jp.co.yumemi.android.code_check.databinding.SearchRepositoryFragmentBinding
 
+//TODO: MVVMを導入してViewModelに処理を移す
 class SearchRepositoryFragment: Fragment(R.layout.search_repository_fragment){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?)
     {
         super.onViewCreated(view, savedInstanceState)
 
+        //FIX: パブリック変数なのにアンダースコアがついている
         val _binding= SearchRepositoryFragmentBinding.bind(view)
 
+        //FiX: requireContext()使わないといけない（エラーより）
         val _viewModel= SearchRepositoryViewModel(context!!)
 
         val _layoutManager= LinearLayoutManager(context!!)
@@ -36,6 +39,7 @@ class SearchRepositoryFragment: Fragment(R.layout.search_repository_fragment){
         _binding.searchInputText
             .setOnEditorActionListener{ editText, action, _ ->
                 if (action== EditorInfo.IME_ACTION_SEARCH){
+                    //FIX: ActionなのでFragmentに書くべきでないかも
                     editText.text.toString().let {
                         _viewModel.searchResults(it).apply{
                             _adapter.submitList(this)
@@ -59,10 +63,12 @@ class SearchRepositoryFragment: Fragment(R.layout.search_repository_fragment){
             .actionRepositoriesFragmentToRepositoryFragment(item= item)
         findNavController().navigate(_action)
     }
+    // TODO:onDestroyView()に_binding=nullを追記しメモリリークを防ぐ
 }
 
-val diff_util= object: DiffUtil.ItemCallback<RepositoryInfo>(){
-    override fun areItemsTheSame(oldItem: RepositoryInfo, newItem: RepositoryInfo): Boolean
+// FIX: privateにする
+val diff_util= object: DiffUtil.ItemCallback<item>(){
+    override fun areItemsTheSame(oldItem: item, newItem: item): Boolean
     {
         return oldItem.name== newItem.name
     }
