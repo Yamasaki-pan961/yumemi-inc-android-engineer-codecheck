@@ -31,7 +31,7 @@ class RepositoryDetailFragment : Fragment(R.layout.repository_detail_fragment) {
 
         binding = RepositoryDetailFragmentBinding.bind(view)
 
-        var item = args.item
+        val item = args.item
 
         _binding.ownerIconView.load(item.ownerIconUrl)
         _binding.nameView.text = item.name
