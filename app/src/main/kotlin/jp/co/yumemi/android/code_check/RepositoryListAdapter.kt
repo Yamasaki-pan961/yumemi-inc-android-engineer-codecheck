@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import jp.co.yumemi.android.code_check.model.RepositoryInfo
 
 /**
  * 検索にヒットしたGitHubリポジトリをリスト表示するための

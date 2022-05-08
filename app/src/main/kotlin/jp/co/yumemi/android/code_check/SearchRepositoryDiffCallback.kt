@@ -1,6 +1,7 @@
 package jp.co.yumemi.android.code_check
 
 import androidx.recyclerview.widget.DiffUtil
+import jp.co.yumemi.android.code_check.model.RepositoryInfo
 
 object SearchRepositoryDiffCallback : DiffUtil.ItemCallback<RepositoryInfo>() {
     override fun areItemsTheSame(

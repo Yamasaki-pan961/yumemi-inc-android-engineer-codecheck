@@ -12,6 +12,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
 import jp.co.yumemi.android.code_check.databinding.SearchRepositoryFragmentBinding
+import jp.co.yumemi.android.code_check.model.RepositoryInfo
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.launch
 

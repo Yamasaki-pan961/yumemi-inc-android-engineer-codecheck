@@ -11,6 +11,7 @@ import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import java.util.*
 import jp.co.yumemi.android.code_check.TopActivity.Companion.lastSearchDate
+import jp.co.yumemi.android.code_check.model.RepositoryInfo
 import kotlinx.coroutines.*
 import org.json.JSONObject
 
