@@ -10,9 +10,11 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
 import jp.co.yumemi.android.code_check.databinding.SearchRepositoryFragmentBinding
+import kotlinx.coroutines.launch
 
 // TODO: MVVMを導入してViewModelに処理を移す
 /**
@@ -31,7 +33,8 @@ class SearchRepositoryFragment : Fragment(R.layout.search_repository_fragment) {
         val viewModel = SearchRepositoryViewModel()
 
         val layoutManager = LinearLayoutManager(requireContext())
-        val dividerItemDecoration = DividerItemDecoration(requireContext(), layoutManager.orientation)
+        val dividerItemDecoration =
+            DividerItemDecoration(requireContext(), layoutManager.orientation)
         val adapter =
             CustomAdapter(
                 object : CustomAdapter.OnItemClickListener {
@@ -45,7 +48,9 @@ class SearchRepositoryFragment : Fragment(R.layout.search_repository_fragment) {
             if (action == EditorInfo.IME_ACTION_SEARCH) {
                 // FIX: ActionなのでFragmentに書くべきでないかも
                 editText.text.toString().let {
-                    viewModel.searchResults(it).apply { adapter.submitList(this) }
+                    viewModel.viewModelScope.launch {
+                        viewModel.searchResults(it).apply { adapter.submitList(this) }
+                    }
                 }
                 return@setOnEditorActionListener true
             }
