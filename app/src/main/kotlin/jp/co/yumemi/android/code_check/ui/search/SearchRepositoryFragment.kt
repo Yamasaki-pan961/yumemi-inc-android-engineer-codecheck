@@ -27,12 +27,12 @@ class SearchRepositoryFragment : Fragment(R.layout.search_repository_fragment) {
     private var _binding: SearchRepositoryFragmentBinding? = null
     private val binding get() = _binding!!
 
+    private val viewModel = SearchRepositoryViewModel()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         _binding = SearchRepositoryFragmentBinding.bind(view)
-
-        val viewModel = SearchRepositoryViewModel()
 
         val layoutManager = LinearLayoutManager(requireContext())
         val dividerItemDecoration =
@@ -58,13 +58,16 @@ class SearchRepositoryFragment : Fragment(R.layout.search_repository_fragment) {
                             ).show()
                         }
                     ) {
-                        viewModel.searchResults(it).apply { adapter.submitList(this) }
+                        viewModel.searchResults(it)
+                        adapter.submitList(viewModel.repositoryList)
                     }
                 }
                 return@setOnEditorActionListener true
             }
             return@setOnEditorActionListener false
         }
+
+        adapter.submitList(viewModel.repositoryList)
 
         binding.recyclerView.also {
             it.layoutManager = layoutManager
