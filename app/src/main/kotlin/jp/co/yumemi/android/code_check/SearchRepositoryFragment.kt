@@ -27,10 +27,10 @@ class SearchRepositoryFragment : Fragment(R.layout.search_repository_fragment) {
         val _binding = SearchRepositoryFragmentBinding.bind(view)
 
         // FiX: requireContext()使わないといけない（エラーより）
-        val _viewModel = SearchRepositoryViewModel(context!!)
+        val _viewModel = SearchRepositoryViewModel(requireContext())
 
-        val _layoutManager = LinearLayoutManager(context!!)
-        val _dividerItemDecoration = DividerItemDecoration(context!!, _layoutManager.orientation)
+        val _layoutManager = LinearLayoutManager(requireContext())
+        val _dividerItemDecoration = DividerItemDecoration(requireContext(), _layoutManager.orientation)
         val _adapter =
             CustomAdapter(
                 object : CustomAdapter.OnItemClickListener {
