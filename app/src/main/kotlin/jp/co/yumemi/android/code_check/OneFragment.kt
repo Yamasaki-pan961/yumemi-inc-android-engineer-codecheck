@@ -14,14 +14,17 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
 import jp.co.yumemi.android.code_check.databinding.FragmentOneBinding
 
+//TODO: MVVMを導入してViewModelに処理を移す
 class OneFragment: Fragment(R.layout.fragment_one){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?)
     {
         super.onViewCreated(view, savedInstanceState)
 
+        //FIX: パブリック変数なのにアンダースコアがついている
         val _binding= FragmentOneBinding.bind(view)
 
+        //FiX: requireContext()使わないといけない（エラーより）
         val _viewModel= OneViewModel(context!!)
 
         val _layoutManager= LinearLayoutManager(context!!)
@@ -36,6 +39,7 @@ class OneFragment: Fragment(R.layout.fragment_one){
         _binding.searchInputText
             .setOnEditorActionListener{ editText, action, _ ->
                 if (action== EditorInfo.IME_ACTION_SEARCH){
+                    //FIX: ActionなのでFragmentに書くべきでないかも
                     editText.text.toString().let {
                         _viewModel.searchResults(it).apply{
                             _adapter.submitList(this)
@@ -59,8 +63,10 @@ class OneFragment: Fragment(R.layout.fragment_one){
             .actionRepositoriesFragmentToRepositoryFragment(item= item)
         findNavController().navigate(_action)
     }
+    // TODO:onDestroyView()に_binding=nullを追記しメモリリークを防ぐ
 }
 
+// FIX: privateにする
 val diff_util= object: DiffUtil.ItemCallback<item>(){
     override fun areItemsTheSame(oldItem: item, newItem: item): Boolean
     {
