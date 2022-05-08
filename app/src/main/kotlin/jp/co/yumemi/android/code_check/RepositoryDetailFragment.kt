@@ -17,7 +17,8 @@ class RepositoryDetailFragment : Fragment(R.layout.repository_detail_fragment) {
     private val args: RepositoryDetailFragmentArgs by navArgs()
 
     private var binding: RepositoryDetailFragmentBinding? = null
-    private val _binding get() = binding!!
+    private val _binding
+        get() = binding!!
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -28,12 +29,12 @@ class RepositoryDetailFragment : Fragment(R.layout.repository_detail_fragment) {
 
         var item = args.item
 
-        _binding.ownerIconView.load(item.ownerIconUrl);
-        _binding.nameView.text = item.name;
-        _binding.languageView.text = item.language;
-        _binding.starsView.text = "${item.stargazersCount} stars";
-        _binding.watchersView.text = "${item.watchersCount} watchers";
-        _binding.forksView.text = "${item.forksCount} forks";
-        _binding.openIssuesView.text = "${item.openIssuesCount} open issues";
+        _binding.ownerIconView.load(item.ownerIconUrl)
+        _binding.nameView.text = item.name
+        _binding.languageView.text = item.language
+        _binding.starsView.text = "${item.stargazersCount} stars"
+        _binding.watchersView.text = "${item.watchersCount} watchers"
+        _binding.forksView.text = "${item.forksCount} forks"
+        _binding.openIssuesView.text = "${item.openIssuesCount} open issues"
     }
 }
